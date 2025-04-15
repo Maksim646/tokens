@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  tokens-dev:
+    container_name: tokens-dev
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ADDR=8000
+      - LOG_LEVEL=DEBUG
+      - MIGRATIONS_DIR=/migrations
+      - POSTGRES_URI=postgres://postgres:tokens@postgres:5432/tokens_db?sslmode=disable
+      - HASH_SALT=MaximAdamov2002
+      - JWT_SIGNIN_KEY=MaximAdamov2002
+
+    ports:
+      - 8205:8000
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:14
+    restart: unless-stopped
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5448:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: tokens_db
+      POSTGRES_PASSWORD: tokens
+
+volumes:
+  postgres:
+    driver: local
+

@@ -12,9 +12,9 @@ import (
 
 	"time"
 
-	"github.com/Maksim646/space_vpx_satellite/internal/database/postgresql"
-	"github.com/Maksim646/space_vpx_satellite/pkg/logger"
-	"github.com/Maksim646/tokens/internal/api/server/restapi/handler"
+	"github.com/Maksim646/Tokens/database/postgresql"
+	"github.com/Maksim646/Tokens/internal/api/server/restapi/handler"
+	"github.com/Maksim646/Tokens/pkg/logger"
 	"github.com/justinas/alice"
 
 	"github.com/heetch/sqalx"
@@ -31,7 +31,7 @@ var config struct {
 	Addr          string `envconfig:"ADDR" default:"8000"`
 	LogLevel      string `envconfig:"LOG_LEVEL"`
 	MigrationsDir string `envconfig:"MIGRATIONS_DIR" default:"../../internal/database/postgresql/migrations"`
-	PostgresURI   string `envconfig:"POSTGRES_URI" default:"postgres://postgres:space@localhost:5447/space_vpx_satellite_db?sslmode=disable"`
+	PostgresURI   string `envconfig:"POSTGRES_URI" default:"postgres://postgres:tokens@localhost:5448/tokens_db?sslmode=disable"`
 
 	HashSalt     string `envconfig:"HASH_SALT" default:"MaximAdamov2002"`
 	JWTSigninKey string `envconfig:"JWT_SIGNIN_KEY" default:"MaximAdamov2002"`

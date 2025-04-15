@@ -1,0 +1,130 @@
+swagger: '2.0'
+
+info:
+  title: Tokens Backend Service
+  version: development
+  description: Tokens WebSite Backend Service
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+
+consumes:
+  - application/json
+
+produces:
+  - application/json
+
+
+paths:
+  /auth/token:
+    get:
+      summary: Get access and refresh tokens
+      description: Get access and refresh tokens by GUID
+      parameters:
+        - name: user_id
+          in: query
+          description: GUID
+          required: true
+          type: string
+        - name: X-Real-IP
+          in: header
+          description: Client's IP address
+          required: false
+          type: string
+      responses:
+        200:
+          description: Successful Tokens Response
+          schema:
+            $ref: "#/definitions/TokensResponse"  
+        400:
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Error"    
+        500:
+          description: Internal server error
+          schema:
+            $ref: "#/definitions/Error"    
+
+  /auth/refresh:
+    post:
+      security:
+        - Bearer: []
+      summary: Update access and refresh tokens
+      description: New tokens by active refresh token
+      parameters:
+        - name: RefreshToken
+          description: Refresh Token Body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/RefreshTokenBody'
+        - name: X-Real-IP
+          in: header
+          description: Client's IP address
+          required: false
+          type: string
+      responses:
+        200:
+          description: Successful Tokens Response
+          schema:
+            $ref: "#/definitions/TokensResponse"  
+        401:
+          description: Unauthorized
+          schema:
+            $ref: "#/definitions/Error" 
+        403:
+          description: Invalid IP or token mismatch
+          schema:
+            $ref: "#/definitions/Error"
+        409:
+          description: Refresh token reuse attempt
+          schema:
+            $ref: "#/definitions/Error" 
+        400:
+          description: Bad request
+          schema:
+            $ref: "#/definitions/Error"    
+        500:
+          description: Internal server error
+          schema:
+            $ref: "#/definitions/Error"  
+
+definitions:
+
+  Error:
+    type: object
+    required:
+      - message
+    properties:
+      message:
+        type: string
+
+  Principal:
+    type: object
+    properties:
+      id:
+        type: string
+        readOnly: true
+      role:
+        type: integer
+        readOnly: true
+
+
+### TOKENS
+
+  RefreshTokenBody:
+    type: object
+    properties:
+      refresh_token:
+        type: string
+
+  TokensResponse:
+    type: object
+    properties:
+      refresh_token:
+        type: string
+      access_token:
+        type: string
