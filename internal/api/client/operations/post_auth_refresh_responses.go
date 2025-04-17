@@ -13,7 +13,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
 
-	models "github.com/Maksim646/Tokens/internal/api/definition"
+	models "github.com/Maksim646/tokens/internal/api/definition"
 )
 
 // PostAuthRefreshReader is a Reader for the PostAuthRefresh structure.
@@ -76,7 +76,7 @@ PostAuthRefreshOK describes a response with status code 200, with default header
 Successful Tokens Response
 */
 type PostAuthRefreshOK struct {
-	Payload *models.TokensResponse
+	Payload *models.AccessTokenBody
 }
 
 // IsSuccess returns true when this post auth refresh o k response has a 2xx status code
@@ -119,13 +119,13 @@ func (o *PostAuthRefreshOK) String() string {
 	return fmt.Sprintf("[POST /auth/refresh][%d] postAuthRefreshOK %s", 200, payload)
 }
 
-func (o *PostAuthRefreshOK) GetPayload() *models.TokensResponse {
+func (o *PostAuthRefreshOK) GetPayload() *models.AccessTokenBody {
 	return o.Payload
 }
 
 func (o *PostAuthRefreshOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.TokensResponse)
+	o.Payload = new(models.AccessTokenBody)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

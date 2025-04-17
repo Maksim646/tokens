@@ -6,7 +6,7 @@ package client
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	"github.com/Maksim646/Tokens/internal/api/client/operations"
+	"github.com/Maksim646/tokens/internal/api/client/operations"
 	"github.com/go-openapi/runtime"
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"

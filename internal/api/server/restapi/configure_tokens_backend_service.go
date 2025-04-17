@@ -10,8 +10,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
-	swaggerapi "github.com/Maksim646/Tokens/internal/api/server/restapi/api"
-	models "github.com/Maksim646/tokens/internal/api/definition"
+	swaggerapi "github.com/Maksim646/tokens/internal/api/server/restapi/api"
 )
 
 //go:generate swagger generate server --target ../../server --name TokensBackendService --spec ../../api.swagger.yaml --api-package api --principal models.Principal --skip-models --exclude-main
@@ -38,13 +37,6 @@ func configureAPI(api *swaggerapi.TokensBackendServiceAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	// Applies when the "Authorization" header is set
-	if api.BearerAuth == nil {
-		api.BearerAuth = func(token string) (*models.Principal, error) {
-			return nil, errors.NotImplemented("api key auth (Bearer) Authorization from header param [Authorization] has not yet been implemented")
-		}
-	}
-
 	// Set your custom authorizer if needed. Default one is security.Authorized()
 	// Expected interface runtime.Authorizer
 	//
@@ -57,7 +49,7 @@ func configureAPI(api *swaggerapi.TokensBackendServiceAPI) http.Handler {
 		})
 	}
 	if api.PostAuthRefreshHandler == nil {
-		api.PostAuthRefreshHandler = swaggerapi.PostAuthRefreshHandlerFunc(func(params swaggerapi.PostAuthRefreshParams, principal *models.Principal) middleware.Responder {
+		api.PostAuthRefreshHandler = swaggerapi.PostAuthRefreshHandlerFunc(func(params swaggerapi.PostAuthRefreshParams) middleware.Responder {
 			return middleware.NotImplemented("operation api.PostAuthRefresh has not yet been implemented")
 		})
 	}

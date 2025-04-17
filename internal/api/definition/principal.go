@@ -23,9 +23,13 @@ type Principal struct {
 	// Read Only: true
 	ID string `json:"id,omitempty"`
 
-	// role
+	// ip
 	// Read Only: true
-	Role int64 `json:"role,omitempty"`
+	IP string `json:"ip,omitempty"`
+
+	// refresh id
+	// Read Only: true
+	RefreshID string `json:"refresh_id,omitempty"`
 }
 
 // Validate validates this principal
@@ -41,7 +45,11 @@ func (m *Principal) ContextValidate(ctx context.Context, formats strfmt.Registry
 		res = append(res, err)
 	}
 
-	if err := m.contextValidateRole(ctx, formats); err != nil {
+	if err := m.contextValidateIP(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateRefreshID(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -60,9 +68,18 @@ func (m *Principal) contextValidateID(ctx context.Context, formats strfmt.Regist
 	return nil
 }
 
-func (m *Principal) contextValidateRole(ctx context.Context, formats strfmt.Registry) error {
+func (m *Principal) contextValidateIP(ctx context.Context, formats strfmt.Registry) error {
 
-	if err := validate.ReadOnly(ctx, "role", "body", int64(m.Role)); err != nil {
+	if err := validate.ReadOnly(ctx, "ip", "body", string(m.IP)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Principal) contextValidateRefreshID(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := validate.ReadOnly(ctx, "refresh_id", "body", string(m.RefreshID)); err != nil {
 		return err
 	}
 

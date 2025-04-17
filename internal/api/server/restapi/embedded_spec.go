@@ -33,35 +33,24 @@ func init() {
   "paths": {
     "/auth/refresh": {
       "post": {
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
         "description": "New tokens by active refresh token",
         "summary": "Update access and refresh tokens",
         "parameters": [
           {
             "description": "Refresh Token Body",
-            "name": "RefreshToken",
+            "name": "RefreshTokenBody",
             "in": "body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/RefreshTokenBody"
             }
-          },
-          {
-            "type": "string",
-            "description": "Client's IP address",
-            "name": "X-Real-IP",
-            "in": "header"
           }
         ],
         "responses": {
           "200": {
             "description": "Successful Tokens Response",
             "schema": {
-              "$ref": "#/definitions/TokensResponse"
+              "$ref": "#/definitions/AccessTokenBody"
             }
           },
           "400": {
@@ -108,19 +97,13 @@ func init() {
             "name": "user_id",
             "in": "query",
             "required": true
-          },
-          {
-            "type": "string",
-            "description": "Client's IP address",
-            "name": "X-Real-IP",
-            "in": "header"
           }
         ],
         "responses": {
           "200": {
             "description": "Successful Tokens Response",
             "schema": {
-              "$ref": "#/definitions/TokensResponse"
+              "$ref": "#/definitions/Tokens"
             }
           },
           "400": {
@@ -140,6 +123,14 @@ func init() {
     }
   },
   "definitions": {
+    "AccessTokenBody": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string"
+        }
+      }
+    },
     "Error": {
       "type": "object",
       "required": [
@@ -158,8 +149,12 @@ func init() {
           "type": "string",
           "readOnly": true
         },
-        "role": {
-          "type": "integer",
+        "ip": {
+          "type": "string",
+          "readOnly": true
+        },
+        "refresh_id": {
+          "type": "string",
           "readOnly": true
         }
       }
@@ -172,7 +167,7 @@ func init() {
         }
       }
     },
-    "TokensResponse": {
+    "Tokens": {
       "type": "object",
       "properties": {
         "access_token": {
@@ -208,35 +203,24 @@ func init() {
   "paths": {
     "/auth/refresh": {
       "post": {
-        "security": [
-          {
-            "Bearer": []
-          }
-        ],
         "description": "New tokens by active refresh token",
         "summary": "Update access and refresh tokens",
         "parameters": [
           {
             "description": "Refresh Token Body",
-            "name": "RefreshToken",
+            "name": "RefreshTokenBody",
             "in": "body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/RefreshTokenBody"
             }
-          },
-          {
-            "type": "string",
-            "description": "Client's IP address",
-            "name": "X-Real-IP",
-            "in": "header"
           }
         ],
         "responses": {
           "200": {
             "description": "Successful Tokens Response",
             "schema": {
-              "$ref": "#/definitions/TokensResponse"
+              "$ref": "#/definitions/AccessTokenBody"
             }
           },
           "400": {
@@ -283,19 +267,13 @@ func init() {
             "name": "user_id",
             "in": "query",
             "required": true
-          },
-          {
-            "type": "string",
-            "description": "Client's IP address",
-            "name": "X-Real-IP",
-            "in": "header"
           }
         ],
         "responses": {
           "200": {
             "description": "Successful Tokens Response",
             "schema": {
-              "$ref": "#/definitions/TokensResponse"
+              "$ref": "#/definitions/Tokens"
             }
           },
           "400": {
@@ -315,6 +293,14 @@ func init() {
     }
   },
   "definitions": {
+    "AccessTokenBody": {
+      "type": "object",
+      "properties": {
+        "access_token": {
+          "type": "string"
+        }
+      }
+    },
     "Error": {
       "type": "object",
       "required": [
@@ -333,8 +319,12 @@ func init() {
           "type": "string",
           "readOnly": true
         },
-        "role": {
-          "type": "integer",
+        "ip": {
+          "type": "string",
+          "readOnly": true
+        },
+        "refresh_id": {
+          "type": "string",
           "readOnly": true
         }
       }
@@ -347,7 +337,7 @@ func init() {
         }
       }
     },
-    "TokensResponse": {
+    "Tokens": {
       "type": "object",
       "properties": {
         "access_token": {

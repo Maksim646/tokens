@@ -12,10 +12,9 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 
-	models "github.com/Maksim646/Tokens/internal/api/definition"
+	models "github.com/Maksim646/tokens/internal/api/definition"
 )
 
 // NewPostAuthRefreshParams creates a new PostAuthRefreshParams object
@@ -39,11 +38,7 @@ type PostAuthRefreshParams struct {
 	  Required: true
 	  In: body
 	*/
-	RefreshToken *models.RefreshTokenBody
-	/*Client's IP address
-	  In: header
-	*/
-	XRealIP *string
+	RefreshTokenBody *models.RefreshTokenBody
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -60,9 +55,9 @@ func (o *PostAuthRefreshParams) BindRequest(r *http.Request, route *middleware.M
 		var body models.RefreshTokenBody
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			if err == io.EOF {
-				res = append(res, errors.Required("refreshToken", "body", ""))
+				res = append(res, errors.Required("refreshTokenBody", "body", ""))
 			} else {
-				res = append(res, errors.NewParseError("refreshToken", "body", "", err))
+				res = append(res, errors.NewParseError("refreshTokenBody", "body", "", err))
 			}
 		} else {
 			// validate body object
@@ -76,35 +71,14 @@ func (o *PostAuthRefreshParams) BindRequest(r *http.Request, route *middleware.M
 			}
 
 			if len(res) == 0 {
-				o.RefreshToken = &body
+				o.RefreshTokenBody = &body
 			}
 		}
 	} else {
-		res = append(res, errors.Required("refreshToken", "body", ""))
-	}
-
-	if err := o.bindXRealIP(r.Header[http.CanonicalHeaderKey("X-Real-IP")], true, route.Formats); err != nil {
-		res = append(res, err)
+		res = append(res, errors.Required("refreshTokenBody", "body", ""))
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// bindXRealIP binds and validates parameter XRealIP from header.
-func (o *PostAuthRefreshParams) bindXRealIP(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-	o.XRealIP = &raw
-
 	return nil
 }

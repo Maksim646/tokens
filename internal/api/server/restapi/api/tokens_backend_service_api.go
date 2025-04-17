@@ -18,8 +18,6 @@ import (
 	"github.com/go-openapi/spec"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
-
-	models "github.com/Maksim646/Tokens/internal/api/definition"
 )
 
 // NewTokensBackendServiceAPI creates a new TokensBackendService instance
@@ -47,16 +45,9 @@ func NewTokensBackendServiceAPI(spec *loads.Document) *TokensBackendServiceAPI {
 		GetAuthTokenHandler: GetAuthTokenHandlerFunc(func(params GetAuthTokenParams) middleware.Responder {
 			return middleware.NotImplemented("operation GetAuthToken has not yet been implemented")
 		}),
-		PostAuthRefreshHandler: PostAuthRefreshHandlerFunc(func(params PostAuthRefreshParams, principal *models.Principal) middleware.Responder {
+		PostAuthRefreshHandler: PostAuthRefreshHandlerFunc(func(params PostAuthRefreshParams) middleware.Responder {
 			return middleware.NotImplemented("operation PostAuthRefresh has not yet been implemented")
 		}),
-
-		// Applies when the "Authorization" header is set
-		BearerAuth: func(token string) (*models.Principal, error) {
-			return nil, errors.NotImplemented("api key auth (Bearer) Authorization from header param [Authorization] has not yet been implemented")
-		},
-		// default authorizer is authorized meaning no requests are blocked
-		APIAuthorizer: security.Authorized(),
 	}
 }
 
@@ -92,13 +83,6 @@ type TokensBackendServiceAPI struct {
 	// JSONProducer registers a producer for the following mime types:
 	//   - application/json
 	JSONProducer runtime.Producer
-
-	// BearerAuth registers a function that takes a token and returns a principal
-	// it performs authentication based on an api key Authorization provided in the header
-	BearerAuth func(string) (*models.Principal, error)
-
-	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
-	APIAuthorizer runtime.Authorizer
 
 	// GetAuthTokenHandler sets the operation handler for the get auth token operation
 	GetAuthTokenHandler GetAuthTokenHandler
@@ -181,10 +165,6 @@ func (o *TokensBackendServiceAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.BearerAuth == nil {
-		unregistered = append(unregistered, "AuthorizationAuth")
-	}
-
 	if o.GetAuthTokenHandler == nil {
 		unregistered = append(unregistered, "GetAuthTokenHandler")
 	}
@@ -206,23 +186,12 @@ func (o *TokensBackendServiceAPI) ServeErrorFor(operationID string) func(http.Re
 
 // AuthenticatorsFor gets the authenticators for the specified security schemes
 func (o *TokensBackendServiceAPI) AuthenticatorsFor(schemes map[string]spec.SecurityScheme) map[string]runtime.Authenticator {
-	result := make(map[string]runtime.Authenticator)
-	for name := range schemes {
-		switch name {
-		case "Bearer":
-			scheme := schemes[name]
-			result[name] = o.APIKeyAuthenticator(scheme.Name, scheme.In, func(token string) (interface{}, error) {
-				return o.BearerAuth(token)
-			})
-
-		}
-	}
-	return result
+	return nil
 }
 
 // Authorizer returns the registered authorizer
 func (o *TokensBackendServiceAPI) Authorizer() runtime.Authorizer {
-	return o.APIAuthorizer
+	return nil
 }
 
 // ConsumersFor gets the consumers for the specified media types.

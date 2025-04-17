@@ -29,16 +29,11 @@ paths:
           description: GUID
           required: true
           type: string
-        - name: X-Real-IP
-          in: header
-          description: Client's IP address
-          required: false
-          type: string
       responses:
         200:
           description: Successful Tokens Response
           schema:
-            $ref: "#/definitions/TokensResponse"  
+            $ref: "#/definitions/Tokens"  
         400:
           description: Bad request
           schema:
@@ -50,27 +45,20 @@ paths:
 
   /auth/refresh:
     post:
-      security:
-        - Bearer: []
       summary: Update access and refresh tokens
       description: New tokens by active refresh token
       parameters:
-        - name: RefreshToken
+        - name: RefreshTokenBody
           description: Refresh Token Body
           in: body
           required: true
           schema:
             $ref: '#/definitions/RefreshTokenBody'
-        - name: X-Real-IP
-          in: header
-          description: Client's IP address
-          required: false
-          type: string
       responses:
         200:
           description: Successful Tokens Response
           schema:
-            $ref: "#/definitions/TokensResponse"  
+            $ref: "#/definitions/AccessTokenBody"  
         401:
           description: Unauthorized
           schema:
@@ -108,8 +96,11 @@ definitions:
       id:
         type: string
         readOnly: true
-      role:
-        type: integer
+      ip:
+        type: string
+        readOnly: true
+      refresh_id:
+        type: string
         readOnly: true
 
 
@@ -121,10 +112,16 @@ definitions:
       refresh_token:
         type: string
 
-  TokensResponse:
+  Tokens:
     type: object
     properties:
       refresh_token:
         type: string
+      access_token:
+        type: string
+
+  AccessTokenBody:
+    type: object
+    properties:
       access_token:
         type: string

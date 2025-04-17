@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	models "github.com/Maksim646/Tokens/internal/api/definition"
+	models "github.com/Maksim646/tokens/internal/api/definition"
 )
 
 // PostAuthRefreshOKCode is the HTTP code returned for type PostAuthRefreshOK
@@ -26,7 +26,7 @@ type PostAuthRefreshOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.TokensResponse `json:"body,omitempty"`
+	Payload *models.AccessTokenBody `json:"body,omitempty"`
 }
 
 // NewPostAuthRefreshOK creates PostAuthRefreshOK with default headers values
@@ -36,13 +36,13 @@ func NewPostAuthRefreshOK() *PostAuthRefreshOK {
 }
 
 // WithPayload adds the payload to the post auth refresh o k response
-func (o *PostAuthRefreshOK) WithPayload(payload *models.TokensResponse) *PostAuthRefreshOK {
+func (o *PostAuthRefreshOK) WithPayload(payload *models.AccessTokenBody) *PostAuthRefreshOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the post auth refresh o k response
-func (o *PostAuthRefreshOK) SetPayload(payload *models.TokensResponse) {
+func (o *PostAuthRefreshOK) SetPayload(payload *models.AccessTokenBody) {
 	o.Payload = payload
 }
 

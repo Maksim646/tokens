@@ -1,4 +1,4 @@
-version: '3.9'
+
 
 services:
   tokens-dev:
@@ -12,27 +12,35 @@ services:
       - LOG_LEVEL=DEBUG
       - MIGRATIONS_DIR=/migrations
       - POSTGRES_URI=postgres://postgres:tokens@postgres:5432/tokens_db?sslmode=disable
-      - HASH_SALT=MaximAdamov2002
       - JWT_SIGNIN_KEY=MaximAdamov2002
-
+      - ACCESS_TOKEN_TTL=15m
+      - REFRESH_TOKEN_TTL=30m
+      - REFRESH_TOKEN_LENGTH=32
     ports:
-      - 8205:8000
+      - 8206:8000
     depends_on:
       - postgres
+    networks:
+      - tokens_network
 
   postgres:
     image: postgres:14
     restart: unless-stopped
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - 5448:5432
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: tokens_db
-      POSTGRES_PASSWORD: tokens
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=tokens_db
+      - POSTGRES_PASSWORD=tokens
+    networks:
+      - tokens_network
 
 volumes:
-  postgres:
+  postgres_data:
     driver: local
 
+networks:
+  tokens_network:
+    driver: bridge

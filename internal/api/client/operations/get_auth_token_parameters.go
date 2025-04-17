@@ -61,12 +61,6 @@ GetAuthTokenParams contains all the parameters to send to the API endpoint
 */
 type GetAuthTokenParams struct {
 
-	/* XRealIP.
-
-	   Client's IP address
-	*/
-	XRealIP *string
-
 	/* UserID.
 
 	   GUID
@@ -126,17 +120,6 @@ func (o *GetAuthTokenParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithXRealIP adds the xRealIP to the get auth token params
-func (o *GetAuthTokenParams) WithXRealIP(xRealIP *string) *GetAuthTokenParams {
-	o.SetXRealIP(xRealIP)
-	return o
-}
-
-// SetXRealIP adds the xRealIp to the get auth token params
-func (o *GetAuthTokenParams) SetXRealIP(xRealIP *string) {
-	o.XRealIP = xRealIP
-}
-
 // WithUserID adds the userID to the get auth token params
 func (o *GetAuthTokenParams) WithUserID(userID string) *GetAuthTokenParams {
 	o.SetUserID(userID)
@@ -155,14 +138,6 @@ func (o *GetAuthTokenParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.
 		return err
 	}
 	var res []error
-
-	if o.XRealIP != nil {
-
-		// header param X-Real-IP
-		if err := r.SetHeaderParam("X-Real-IP", *o.XRealIP); err != nil {
-			return err
-		}
-	}
 
 	// query param user_id
 	qrUserID := o.UserID

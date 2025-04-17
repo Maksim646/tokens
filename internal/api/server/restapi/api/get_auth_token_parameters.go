@@ -32,10 +32,6 @@ type GetAuthTokenParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*Client's IP address
-	  In: header
-	*/
-	XRealIP *string
 	/*GUID
 	  Required: true
 	  In: query
@@ -54,10 +50,6 @@ func (o *GetAuthTokenParams) BindRequest(r *http.Request, route *middleware.Matc
 
 	qs := runtime.Values(r.URL.Query())
 
-	if err := o.bindXRealIP(r.Header[http.CanonicalHeaderKey("X-Real-IP")], true, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
 	qUserID, qhkUserID, _ := qs.GetOK("user_id")
 	if err := o.bindUserID(qUserID, qhkUserID, route.Formats); err != nil {
 		res = append(res, err)
@@ -65,23 +57,6 @@ func (o *GetAuthTokenParams) BindRequest(r *http.Request, route *middleware.Matc
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// bindXRealIP binds and validates parameter XRealIP from header.
-func (o *GetAuthTokenParams) bindXRealIP(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-	o.XRealIP = &raw
-
 	return nil
 }
 

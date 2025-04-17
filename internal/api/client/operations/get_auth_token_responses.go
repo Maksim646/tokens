@@ -13,7 +13,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/strfmt"
 
-	models "github.com/Maksim646/Tokens/internal/api/definition"
+	models "github.com/Maksim646/tokens/internal/api/definition"
 )
 
 // GetAuthTokenReader is a Reader for the GetAuthToken structure.
@@ -58,7 +58,7 @@ GetAuthTokenOK describes a response with status code 200, with default header va
 Successful Tokens Response
 */
 type GetAuthTokenOK struct {
-	Payload *models.TokensResponse
+	Payload *models.Tokens
 }
 
 // IsSuccess returns true when this get auth token o k response has a 2xx status code
@@ -101,13 +101,13 @@ func (o *GetAuthTokenOK) String() string {
 	return fmt.Sprintf("[GET /auth/token][%d] getAuthTokenOK %s", 200, payload)
 }
 
-func (o *GetAuthTokenOK) GetPayload() *models.TokensResponse {
+func (o *GetAuthTokenOK) GetPayload() *models.Tokens {
 	return o.Payload
 }
 
 func (o *GetAuthTokenOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(models.TokensResponse)
+	o.Payload = new(models.Tokens)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

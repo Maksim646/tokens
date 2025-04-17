@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	models "github.com/Maksim646/Tokens/internal/api/definition"
+	models "github.com/Maksim646/tokens/internal/api/definition"
 )
 
 // GetAuthTokenOKCode is the HTTP code returned for type GetAuthTokenOK
@@ -26,7 +26,7 @@ type GetAuthTokenOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.TokensResponse `json:"body,omitempty"`
+	Payload *models.Tokens `json:"body,omitempty"`
 }
 
 // NewGetAuthTokenOK creates GetAuthTokenOK with default headers values
@@ -36,13 +36,13 @@ func NewGetAuthTokenOK() *GetAuthTokenOK {
 }
 
 // WithPayload adds the payload to the get auth token o k response
-func (o *GetAuthTokenOK) WithPayload(payload *models.TokensResponse) *GetAuthTokenOK {
+func (o *GetAuthTokenOK) WithPayload(payload *models.Tokens) *GetAuthTokenOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get auth token o k response
-func (o *GetAuthTokenOK) SetPayload(payload *models.TokensResponse) {
+func (o *GetAuthTokenOK) SetPayload(payload *models.Tokens) {
 	o.Payload = payload
 }
 

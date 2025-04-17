@@ -13,6 +13,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-X 'main.Version=$(git rev-parse
 FROM alpine
 
 COPY --from=build /bin/tokens /bin/tokens
-COPY --from=build /src/internal/database/postgresql/migrations /migrations
+COPY --from=build /src/database/postgresql/migrations /migrations
 
 ENTRYPOINT ["/bin/tokens"]

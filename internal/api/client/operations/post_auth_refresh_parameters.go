@@ -15,7 +15,7 @@ import (
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
-	models "github.com/Maksim646/Tokens/internal/api/definition"
+	models "github.com/Maksim646/tokens/internal/api/definition"
 )
 
 // NewPostAuthRefreshParams creates a new PostAuthRefreshParams object,
@@ -63,17 +63,11 @@ PostAuthRefreshParams contains all the parameters to send to the API endpoint
 */
 type PostAuthRefreshParams struct {
 
-	/* RefreshToken.
+	/* RefreshTokenBody.
 
 	   Refresh Token Body
 	*/
-	RefreshToken *models.RefreshTokenBody
-
-	/* XRealIP.
-
-	   Client's IP address
-	*/
-	XRealIP *string
+	RefreshTokenBody *models.RefreshTokenBody
 
 	timeout    time.Duration
 	Context    context.Context
@@ -128,26 +122,15 @@ func (o *PostAuthRefreshParams) SetHTTPClient(client *http.Client) {
 	o.HTTPClient = client
 }
 
-// WithRefreshToken adds the refreshToken to the post auth refresh params
-func (o *PostAuthRefreshParams) WithRefreshToken(refreshToken *models.RefreshTokenBody) *PostAuthRefreshParams {
-	o.SetRefreshToken(refreshToken)
+// WithRefreshTokenBody adds the refreshTokenBody to the post auth refresh params
+func (o *PostAuthRefreshParams) WithRefreshTokenBody(refreshTokenBody *models.RefreshTokenBody) *PostAuthRefreshParams {
+	o.SetRefreshTokenBody(refreshTokenBody)
 	return o
 }
 
-// SetRefreshToken adds the refreshToken to the post auth refresh params
-func (o *PostAuthRefreshParams) SetRefreshToken(refreshToken *models.RefreshTokenBody) {
-	o.RefreshToken = refreshToken
-}
-
-// WithXRealIP adds the xRealIP to the post auth refresh params
-func (o *PostAuthRefreshParams) WithXRealIP(xRealIP *string) *PostAuthRefreshParams {
-	o.SetXRealIP(xRealIP)
-	return o
-}
-
-// SetXRealIP adds the xRealIp to the post auth refresh params
-func (o *PostAuthRefreshParams) SetXRealIP(xRealIP *string) {
-	o.XRealIP = xRealIP
+// SetRefreshTokenBody adds the refreshTokenBody to the post auth refresh params
+func (o *PostAuthRefreshParams) SetRefreshTokenBody(refreshTokenBody *models.RefreshTokenBody) {
+	o.RefreshTokenBody = refreshTokenBody
 }
 
 // WriteToRequest writes these params to a swagger request
@@ -157,16 +140,8 @@ func (o *PostAuthRefreshParams) WriteToRequest(r runtime.ClientRequest, reg strf
 		return err
 	}
 	var res []error
-	if o.RefreshToken != nil {
-		if err := r.SetBodyParam(o.RefreshToken); err != nil {
-			return err
-		}
-	}
-
-	if o.XRealIP != nil {
-
-		// header param X-Real-IP
-		if err := r.SetHeaderParam("X-Real-IP", *o.XRealIP); err != nil {
+	if o.RefreshTokenBody != nil {
+		if err := r.SetBodyParam(o.RefreshTokenBody); err != nil {
 			return err
 		}
 	}

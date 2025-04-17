@@ -25,5 +25,5 @@ up: build
 generate:
 	@echo "$(GENERATE_CODE_MSG)"
 	@swagger generate model -f ./internal/api/api.swagger.yaml -t ./internal/api -m definition
-	@swagger generate client -f ./internal/api/api.swagger.yaml -t ./internal/api  --skip-tag-packages --skip-models --existing-models=github.com/Maksim646/Tokens/internal/api/definition -P models.Principal
-	@swagger generate server -f ./internal/api/api.swagger.yaml -t ./internal/api/server --exclude-main --skip-tag-packages --skip-models --api-package=api --existing-models=github.com/Maksim646/Tokens/internal/api/definition -P models.Principal
+	@swagger generate client -f ./internal/api/api.swagger.yaml -t ./internal/api  --skip-tag-packages --skip-models --existing-models=github.com/Maksim646/tokens/internal/api/definition -P models.Principal
+	@swagger generate server -f ./internal/api/api.swagger.yaml -t ./internal/api/server --exclude-main --skip-tag-packages --skip-models --api-package=api --existing-models=github.com/Maksim646/tokens/internal/api/definition -P models.Principal
