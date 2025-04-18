@@ -8,6 +8,7 @@ import (
 	"github.com/Maksim646/tokens/database/postgresql"
 	"github.com/Maksim646/tokens/internal/model"
 	sq "github.com/Masterminds/squirrel"
+	"github.com/google/uuid"
 	"github.com/heetch/sqalx"
 	"go.uber.org/zap"
 )
@@ -20,12 +21,20 @@ func New(sqalxConn sqalx.Node) model.IUserRepository {
 	return &UserRepository{sqalxConn: sqalxConn}
 }
 
-func (r *UserRepository) CreateUserByEmail(ctx context.Context, email string) (string, error) {
+func (r *UserRepository) CreateUserByEmail(ctx context.Context, userID string, email string) (string, error) {
+
+	_, err := uuid.Parse(userID)
+	if err != nil {
+		return "", model.ErrInvalidUserID
+	}
+
 	query, params, err := postgresql.Builder.Insert("users").
 		Columns(
+			"id",
 			"email",
 		).
 		Values(
+			userID,
 			email,
 		).
 		Suffix("RETURNING id").

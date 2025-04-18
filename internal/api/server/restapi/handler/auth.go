@@ -97,7 +97,7 @@ func (h *Handler) GetAccessRefreshTokensHandler(req api.GetAuthTokenParams) midd
 	})
 }
 
-func (h *Handler) RefreshAccessRefreshTokensHandler(req api.PostAuthRefreshParams) middleware.Responder {
+func (h *Handler) UpdateAccessRefreshTokensHandler(req api.PostAuthRefreshParams) middleware.Responder {
 	zap.L().Info("update access and refresh tokens request")
 	ctx := req.HTTPRequest.Context()
 

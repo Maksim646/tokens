@@ -70,7 +70,7 @@ func New(
 
 	// AUTH
 	apiRouter.GetAuthTokenHandler = api.GetAuthTokenHandlerFunc(h.GetAccessRefreshTokensHandler)
-	apiRouter.PostAuthRefreshHandler = api.PostAuthRefreshHandlerFunc(h.RefreshAccessRefreshTokensHandler)
+	apiRouter.PostAuthRefreshHandler = api.PostAuthRefreshHandlerFunc(h.UpdateAccessRefreshTokensHandler)
 
 	h.router = apiRouter.Serve(nil)
 

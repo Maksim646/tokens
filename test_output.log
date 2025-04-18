@@ -1,0 +1,85 @@
+PROJECT_ROOT: /mnt/c/Users/Максим/Downloads/Strangerthings/tokens_2/tokens
+TEST_DIR: ./internal/api/server/restapi/handler
+=== RUN   TestHandler
+2025/04/18 19:11:26 Successfully connected to postgres database: postgres://postgres:tokens@localhost:5448/tokens_db_test?sslmode=disable
+2025/04/18 19:11:26 Successfully connected to postgres database: postgres://postgres:tokens@localhost:5448/postgres?sslmode=disable
+2025/04/18 19:11:26 Successfully dropped database: tokens_db_test
+2025/04/18 19:11:26 Successfully connected to postgres database: postgres://postgres:tokens@localhost:5448/postgres?sslmode=disable
+2025/04/18 19:11:26 Successfully created database: tokens_db_test
+2025/04/18 19:11:26 Successfully connected to postgres database: postgres://postgres:tokens@localhost:5448/tokens_db_test?sslmode=disable
+    logger.go:146: 2025-04-18T19:11:26.973+0300	INFO	postgresql/migrator.go:23	migrations: 9/u db_schema (15.721299ms)
+    logger.go:146: 2025-04-18T19:11:26.981+0300	INFO	handler/handler.go:65	Initializing API routes
+=== RUN   TestHandler/TestGetAccessRefreshTokens
+    logger.go:146: 2025-04-18T19:11:26.986+0300	DEBUG	postgresql/user.go:46	INSERT INTO users (id,email) VALUES (41d862b0-81ee-4167-b19c-111e8126cc32,user1@example.ru) RETURNING id
+    logger.go:146: 2025-04-18T19:11:26.987+0300	DEBUG	postgresql/refresh_token.go:42	CreateRefreshToken SQL	{"query": "INSERT INTO refresh_tokens (token_hash,id,user_id,expired_at) VALUES ($1,$2,$3,$4)", "params": ["111","41d862b0-81ee-4167-b19c-111e8126cc34","41d862b0-81ee-4167-b19c-111e8126cc32","2025-04-18T16:12:26.9878877Z"]}
+    logger.go:146: 2025-04-18T19:11:26.989+0300	DEBUG	postgresql/user.go:46	INSERT INTO users (id,email) VALUES (41d862b0-81ee-4167-b19c-111e8126cc33,user2@example.ru) RETURNING id
+    logger.go:146: 2025-04-18T19:11:26.990+0300	DEBUG	postgresql/refresh_token.go:42	CreateRefreshToken SQL	{"query": "INSERT INTO refresh_tokens (token_hash,id,user_id,expired_at) VALUES ($1,$2,$3,$4)", "params": ["222","41d862b0-81ee-4167-b19c-111e8126cc35","41d862b0-81ee-4167-b19c-111e8126cc33","2025-04-18T16:11:26.98999312Z"]}
+    logger.go:146: 2025-04-18T19:11:27.990+0300	DEBUG	postgresql/user.go:46	INSERT INTO users (id,email) VALUES (123e4567-e89b-12d3-a456-426614174000,user3@example.ru) RETURNING id
+=== RUN   TestHandler/TestGetAccessRefreshTokens/RefreshTokenValid
+=== NAME  TestHandler/TestGetAccessRefreshTokens
+    logger.go:146: 2025-04-18T19:11:27.993+0300	INFO	handler/auth.go:19	get access and refresh tokens request
+    logger.go:146: 2025-04-18T19:11:27.993+0300	DEBUG	postgresql/user.go:67	SELECT id, email, created_at FROM users WHERE id = 41d862b0-81ee-4167-b19c-111e8126cc32
+    logger.go:146: 2025-04-18T19:11:27.995+0300	DEBUG	postgresql/refresh_token.go:69	GetRefreshTokenByUserID SQL	{"query": "SELECT token_hash, id, user_id, created_at, expired_at FROM refresh_tokens WHERE user_id = $1", "params": ["41d862b0-81ee-4167-b19c-111e8126cc32"]}
+    logger.go:146: 2025-04-18T19:11:27.996+0300	INFO	handler/auth.go:39	refresh token is valid
+=== RUN   TestHandler/TestGetAccessRefreshTokens/RefreshTokenExpired
+=== NAME  TestHandler/TestGetAccessRefreshTokens
+    logger.go:146: 2025-04-18T19:11:27.997+0300	INFO	handler/auth.go:19	get access and refresh tokens request
+    logger.go:146: 2025-04-18T19:11:27.997+0300	DEBUG	postgresql/user.go:67	SELECT id, email, created_at FROM users WHERE id = 41d862b0-81ee-4167-b19c-111e8126cc33
+    logger.go:146: 2025-04-18T19:11:27.998+0300	DEBUG	postgresql/refresh_token.go:69	GetRefreshTokenByUserID SQL	{"query": "SELECT token_hash, id, user_id, created_at, expired_at FROM refresh_tokens WHERE user_id = $1", "params": ["41d862b0-81ee-4167-b19c-111e8126cc33"]}
+    logger.go:146: 2025-04-18T19:11:28.000+0300	DEBUG	postgresql/refresh_token.go:94	DELETE FROM refresh_tokens WHERE refresh_tokens.id = 41d862b0-81ee-4167-b19c-111e8126cc35
+    logger.go:146: 2025-04-18T19:11:28.001+0300	DEBUG	postgresql/refresh_token.go:69	GetRefreshTokenByUserID SQL	{"query": "SELECT token_hash, id, user_id, created_at, expired_at FROM refresh_tokens WHERE user_id = $1", "params": ["41d862b0-81ee-4167-b19c-111e8126cc33"]}
+    logger.go:146: 2025-04-18T19:11:28.054+0300	DEBUG	postgresql/refresh_token.go:42	CreateRefreshToken SQL	{"query": "INSERT INTO refresh_tokens (token_hash,id,user_id,expired_at) VALUES ($1,$2,$3,$4)", "params": ["$2a$10$.d37JJzIc0rOk2tE9rdA3.6UKfyadM2smEGUze9CXzdmh/lqT2Voy","960a414a-6057-4676-a317-066514ada279","41d862b0-81ee-4167-b19c-111e8126cc33","2025-04-18T16:41:28.054114502Z"]}
+=== RUN   TestHandler/TestGetAccessRefreshTokens/UserExistsWithoutToken
+=== NAME  TestHandler/TestGetAccessRefreshTokens
+    logger.go:146: 2025-04-18T19:11:28.055+0300	INFO	handler/auth.go:19	get access and refresh tokens request
+    logger.go:146: 2025-04-18T19:11:28.055+0300	DEBUG	postgresql/user.go:67	SELECT id, email, created_at FROM users WHERE id = 123e4567-e89b-12d3-a456-426614174000
+    logger.go:146: 2025-04-18T19:11:28.055+0300	DEBUG	postgresql/refresh_token.go:69	GetRefreshTokenByUserID SQL	{"query": "SELECT token_hash, id, user_id, created_at, expired_at FROM refresh_tokens WHERE user_id = $1", "params": ["123e4567-e89b-12d3-a456-426614174000"]}
+    logger.go:146: 2025-04-18T19:11:28.101+0300	DEBUG	postgresql/refresh_token.go:42	CreateRefreshToken SQL	{"query": "INSERT INTO refresh_tokens (token_hash,id,user_id,expired_at) VALUES ($1,$2,$3,$4)", "params": ["$2a$10$IHve.M/cF1N8oaBSVRtSj.HJiOSEkYTZQWYLLa1fWsG5V3AAEvkui","bd32744b-7bc4-422b-8056-61a809ac0354","123e4567-e89b-12d3-a456-426614174000","2025-04-18T16:41:28.101154809Z"]}
+=== RUN   TestHandler/TestGetAccessRefreshTokens/InvalidUUID
+=== NAME  TestHandler/TestGetAccessRefreshTokens
+    logger.go:146: 2025-04-18T19:11:28.102+0300	INFO	handler/auth.go:19	get access and refresh tokens request
+    logger.go:146: 2025-04-18T19:11:28.102+0300	DEBUG	postgresql/user.go:67	SELECT id, email, created_at FROM users WHERE id = not-a-uuid
+    logger.go:146: 2025-04-18T19:11:28.102+0300	ERROR	handler/auth.go:30	user not found, user id: not-a-uuid	{"error": "pq: invalid input syntax for type uuid: \"not-a-uuid\""}
+=== RUN   TestHandler/TestGetAccessRefreshTokens/UserDoesNotExist
+=== NAME  TestHandler/TestGetAccessRefreshTokens
+    logger.go:146: 2025-04-18T19:11:28.103+0300	INFO	handler/auth.go:19	get access and refresh tokens request
+    logger.go:146: 2025-04-18T19:11:28.103+0300	DEBUG	postgresql/user.go:67	SELECT id, email, created_at FROM users WHERE id = 11111111-1111-1111-1111-111111111111
+    logger.go:146: 2025-04-18T19:11:28.103+0300	ERROR	handler/auth.go:30	user not found, user id: 11111111-1111-1111-1111-111111111111	{"error": "pq: current transaction is aborted, commands ignored until end of transaction block"}
+=== RUN   TestHandler/TestUpdateAccessTokenByRefreshToken
+    logger.go:146: 2025-04-18T19:11:28.104+0300	DEBUG	postgresql/user.go:46	INSERT INTO users (id,email) VALUES (41d862b0-81ee-4167-b19c-111e8126cc32,user1@example.ru) RETURNING id
+    logger.go:146: 2025-04-18T19:11:28.105+0300	DEBUG	postgresql/refresh_token.go:42	CreateRefreshToken SQL	{"query": "INSERT INTO refresh_tokens (token_hash,id,user_id,expired_at) VALUES ($1,$2,$3,$4)", "params": ["111","41d862b0-81ee-4167-b19c-111e8126cc34","41d862b0-81ee-4167-b19c-111e8126cc32","2025-04-18T16:12:28.105104761Z"]}
+    logger.go:146: 2025-04-18T19:11:28.105+0300	DEBUG	postgresql/user.go:46	INSERT INTO users (id,email) VALUES (41d862b0-81ee-4167-b19c-111e8126cc33,user2@example.ru) RETURNING id
+    logger.go:146: 2025-04-18T19:11:28.106+0300	DEBUG	postgresql/refresh_token.go:42	CreateRefreshToken SQL	{"query": "INSERT INTO refresh_tokens (token_hash,id,user_id,expired_at) VALUES ($1,$2,$3,$4)", "params": ["222","41d862b0-81ee-4167-b19c-111e8126cc35","41d862b0-81ee-4167-b19c-111e8126cc33","2025-04-18T16:11:28.106258096Z"]}
+    logger.go:146: 2025-04-18T19:11:29.107+0300	DEBUG	postgresql/user.go:46	INSERT INTO users (id,email) VALUES (123e4567-e89b-12d3-a456-426614174000,user3@example.ru) RETURNING id
+    logger.go:146: 2025-04-18T19:11:29.109+0300	DEBUG	postgresql/refresh_token.go:42	CreateRefreshToken SQL	{"query": "INSERT INTO refresh_tokens (token_hash,id,user_id,expired_at) VALUES ($1,$2,$3,$4)", "params": ["333","41d862b0-81ee-4167-b19c-111e8126cc35","41d862b0-81ee-4167-b19c-111e8126cc33","2025-04-18T16:11:29.109422841Z"]}
+=== RUN   TestHandler/TestUpdateAccessTokenByRefreshToken/RefreshTokenValid
+=== NAME  TestHandler/TestUpdateAccessTokenByRefreshToken
+    logger.go:146: 2025-04-18T19:11:29.110+0300	INFO	handler/auth.go:101	update access and refresh tokens request
+    logger.go:146: 2025-04-18T19:11:29.111+0300	DEBUG	postgresql/user.go:67	SELECT id, email, created_at FROM users WHERE id = 41d862b0-81ee-4167-b19c-111e8126cc32
+    logger.go:146: 2025-04-18T19:11:29.112+0300	DEBUG	postgresql/refresh_token.go:69	GetRefreshTokenByUserID SQL	{"query": "SELECT token_hash, id, user_id, created_at, expired_at FROM refresh_tokens WHERE user_id = $1", "params": ["41d862b0-81ee-4167-b19c-111e8126cc32"]}
+=== RUN   TestHandler/TestUpdateAccessTokenByRefreshToken/RefreshTokenExpired
+=== NAME  TestHandler/TestUpdateAccessTokenByRefreshToken
+    logger.go:146: 2025-04-18T19:11:29.113+0300	INFO	handler/auth.go:101	update access and refresh tokens request
+    logger.go:146: 2025-04-18T19:11:29.113+0300	DEBUG	postgresql/user.go:67	SELECT id, email, created_at FROM users WHERE id = 41d862b0-81ee-4167-b19c-111e8126cc33
+    logger.go:146: 2025-04-18T19:11:29.115+0300	DEBUG	postgresql/refresh_token.go:69	GetRefreshTokenByUserID SQL	{"query": "SELECT token_hash, id, user_id, created_at, expired_at FROM refresh_tokens WHERE user_id = $1", "params": ["41d862b0-81ee-4167-b19c-111e8126cc33"]}
+    logger.go:146: 2025-04-18T19:11:29.116+0300	INFO	handler/auth.go:138	refresh token was expired
+=== RUN   TestHandler/TestUpdateAccessTokenByRefreshToken/InvalidRefreshToken
+=== NAME  TestHandler/TestUpdateAccessTokenByRefreshToken
+    logger.go:146: 2025-04-18T19:11:29.116+0300	INFO	handler/auth.go:101	update access and refresh tokens request
+    logger.go:146: 2025-04-18T19:11:29.116+0300	DEBUG	postgresql/user.go:67	SELECT id, email, created_at FROM users WHERE id = 123e4567-e89b-12d3-a456-426614174000
+    logger.go:146: 2025-04-18T19:11:29.118+0300	DEBUG	postgresql/refresh_token.go:69	GetRefreshTokenByUserID SQL	{"query": "SELECT token_hash, id, user_id, created_at, expired_at FROM refresh_tokens WHERE user_id = $1", "params": ["123e4567-e89b-12d3-a456-426614174000"]}
+    logger.go:146: 2025-04-18T19:11:29.119+0300	INFO	handler/auth.go:152	tokens have different id
+file:///mnt/c/Users/Максим/Downloads/Strangerthings/tokens_2/tokens/database/postgresql/migrations
+--- PASS: TestHandler (2.95s)
+    --- PASS: TestHandler/TestGetAccessRefreshTokens (1.12s)
+        --- PASS: TestHandler/TestGetAccessRefreshTokens/RefreshTokenValid (0.00s)
+        --- PASS: TestHandler/TestGetAccessRefreshTokens/RefreshTokenExpired (0.06s)
+        --- PASS: TestHandler/TestGetAccessRefreshTokens/UserExistsWithoutToken (0.05s)
+        --- PASS: TestHandler/TestGetAccessRefreshTokens/InvalidUUID (0.00s)
+        --- PASS: TestHandler/TestGetAccessRefreshTokens/UserDoesNotExist (0.00s)
+    --- PASS: TestHandler/TestUpdateAccessTokenByRefreshToken (1.02s)
+        --- PASS: TestHandler/TestUpdateAccessTokenByRefreshToken/RefreshTokenValid (0.00s)
+        --- PASS: TestHandler/TestUpdateAccessTokenByRefreshToken/RefreshTokenExpired (0.00s)
+        --- PASS: TestHandler/TestUpdateAccessTokenByRefreshToken/InvalidRefreshToken (0.00s)
+PASS
+ok  	github.com/Maksim646/tokens/internal/api/server/restapi/handler	2.962s

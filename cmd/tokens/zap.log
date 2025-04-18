@@ -2502,3 +2502,7 @@
 {"level":"\u001b[35mDEBUG\u001b[0m","time":"2025-04-17T23:01:16.159+0300","caller":"postgresql/user.go:58","message":"SELECT id, email, created_at FROM users WHERE id = f47ac10b-58cc-4372-a567-0e02b2c3d479"}
 {"level":"\u001b[35mDEBUG\u001b[0m","time":"2025-04-17T23:01:16.161+0300","caller":"postgresql/refresh_token.go:69","message":"GetRefreshTokenByUserID SQL","query":"SELECT token_hash, id, user_id, created_at, expired_at FROM refresh_tokens WHERE user_id = $1","params":["f47ac10b-58cc-4372-a567-0e02b2c3d479"]}
 {"level":"\u001b[34mINFO\u001b[0m","time":"2025-04-17T23:01:16.162+0300","caller":"handler/auth.go:39","message":"refresh token is valid"}
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-04-18T14:55:17.387+0300","caller":"tokens/main.go:58","message":"PostgresURI: ","uri":"postgres://postgres:tokens@localhost:5448/tokens_db?sslmode=disable"}
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-04-18T14:55:17.408+0300","caller":"tokens/main.go:59","message":"MigrationsDir: ","dir":"../../database/postgresql/migrations"}
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-04-18T14:55:20.476+0300","caller":"tokens/main.go:84","message":"Database manage was process successfully"}
+{"level":"\u001b[34mINFO\u001b[0m","time":"2025-04-18T14:55:20.490+0300","caller":"handler/handler.go:65","message":"Initializing API routes"}

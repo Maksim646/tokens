@@ -27,3 +27,10 @@ generate:
 	@swagger generate model -f ./internal/api/api.swagger.yaml -t ./internal/api -m definition
 	@swagger generate client -f ./internal/api/api.swagger.yaml -t ./internal/api  --skip-tag-packages --skip-models --existing-models=github.com/Maksim646/tokens/internal/api/definition -P models.Principal
 	@swagger generate server -f ./internal/api/api.swagger.yaml -t ./internal/api/server --exclude-main --skip-tag-packages --skip-models --api-package=api --existing-models=github.com/Maksim646/tokens/internal/api/definition -P models.Principal
+
+init_test_db:
+	@echo "$(INIT_TEST_DB)"
+	@docker exec -it $$(docker ps -aqf name=tokens-postgres-1) psql -U postgres -c 'CREATE DATABASE tokens_db_test'
+
+test:
+	@./test_wrapper.sh | tee test_output.log

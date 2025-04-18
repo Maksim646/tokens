@@ -7,8 +7,9 @@ import (
 )
 
 var (
-	ErrUserNotFound = errors.New("user not found")
-	UserNotFound    = "user not found"
+	ErrUserNotFound  = errors.New("user not found")
+	ErrInvalidUserID = errors.New("invalid user id")
+	UserNotFound     = "user not found"
 )
 
 type User struct {
@@ -19,11 +20,11 @@ type User struct {
 }
 
 type IUserRepository interface {
-	CreateUserByEmail(ctx context.Context, email string) (string, error)
+	CreateUserByEmail(ctx context.Context, userID string, email string) (string, error)
 	GetUserByID(ctx context.Context, id string) (User, error)
 }
 
 type IUserUsecase interface {
-	CreateUserByEmail(ctx context.Context, email string) (string, error)
+	CreateUserByEmail(ctx context.Context, userID string, email string) (string, error)
 	GetUserByID(ctx context.Context, id string) (User, error)
 }
