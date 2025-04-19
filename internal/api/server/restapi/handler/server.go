@@ -30,7 +30,7 @@ func (h *Handler) WsMiddleware(next http.Handler) http.Handler {
 		case strings.HasPrefix(path, "/auth/token"), path == "/docs", path == "/swagger.json":
 			zap.L().Debug("Unauthenticated route accessed", zap.String("path", path))
 		case path == "/auth/refresh":
-			principal, err = h.ValidateExpiredOrValidToken(authHeader)
+			principal, err = h.ValidateExpiredToken(authHeader)
 		default:
 			principal, err = h.ValidateAccessTokenOnly(authHeader)
 		}

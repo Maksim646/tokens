@@ -95,7 +95,7 @@ func (h *Handler) ValidateAccessTokenOnly(bearerHeader string) (*definition.Prin
 	}, nil
 }
 
-func (h *Handler) ValidateExpiredOrValidToken(bearerHeader string) (*definition.Principal, error) {
+func (h *Handler) ValidateExpiredToken(bearerHeader string) (*definition.Principal, error) {
 	bearerToken := extractToken(bearerHeader)
 
 	userID, ip, refreshID, err := jsonwebtoken.ParseToken(bearerToken, h.jwtSigninKey)

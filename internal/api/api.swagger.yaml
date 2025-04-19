@@ -45,6 +45,8 @@ paths:
 
   /auth/refresh:
     post:
+      security:
+        - Bearer: []
       summary: Update access and refresh tokens
       description: New tokens by active refresh token
       parameters:

@@ -33,6 +33,11 @@ func init() {
   "paths": {
     "/auth/refresh": {
       "post": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "description": "New tokens by active refresh token",
         "summary": "Update access and refresh tokens",
         "parameters": [
@@ -203,6 +208,11 @@ func init() {
   "paths": {
     "/auth/refresh": {
       "post": {
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "description": "New tokens by active refresh token",
         "summary": "Update access and refresh tokens",
         "parameters": [

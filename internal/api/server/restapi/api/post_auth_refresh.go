@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
+
 )
 
 // PostAuthRefreshHandlerFunc turns a function with the right signature into a post auth refresh handler
@@ -47,6 +48,7 @@ func (o *PostAuthRefresh) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		*r = *rCtx
 	}
 	var Params = NewPostAuthRefreshParams()
+
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return

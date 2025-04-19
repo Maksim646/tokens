@@ -58,7 +58,7 @@ type ClientOption func(*runtime.ClientOperation)
 type ClientService interface {
 	GetAuthToken(params *GetAuthTokenParams, opts ...ClientOption) (*GetAuthTokenOK, error)
 
-	PostAuthRefresh(params *PostAuthRefreshParams, opts ...ClientOption) (*PostAuthRefreshOK, error)
+	PostAuthRefresh(params *PostAuthRefreshParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*PostAuthRefreshOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -108,7 +108,7 @@ PostAuthRefresh updates access and refresh tokens
 
 New tokens by active refresh token
 */
-func (a *Client) PostAuthRefresh(params *PostAuthRefreshParams, opts ...ClientOption) (*PostAuthRefreshOK, error) {
+func (a *Client) PostAuthRefresh(params *PostAuthRefreshParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*PostAuthRefreshOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewPostAuthRefreshParams()
@@ -122,6 +122,7 @@ func (a *Client) PostAuthRefresh(params *PostAuthRefreshParams, opts ...ClientOp
 		Schemes:            []string{"http"},
 		Params:             params,
 		Reader:             &PostAuthRefreshReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	}
